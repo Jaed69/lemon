@@ -1,0 +1,10 @@
+# Node / Astro build artifacts
+node_modules/
+dist/
+.astro/
+*.log
+
+# Secrets — never commit
+.env
+*.key
+*.pem

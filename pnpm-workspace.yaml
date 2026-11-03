@@ -1,0 +1,24 @@
+# Single-package repo: no `packages` key. pnpm v11+ reads these settings here, not in
+# package.json, and the Dockerfile copies this file so the image install behaves the same.
+
+onlyBuiltDependencies:
+  - esbuild
+  - unrs-resolver
+
+# Astro and its integrations are verified releases; pnpm's default minimumReleaseAge (1d)
+# would block a fresh publish. Carried over from the monorepo workspace.
+minimumReleaseAge: 0
+
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+# Security floors for transitive deps flagged by Dependabot. Majors are preserved.
+overrides:
+  source-map-js: ^1.2.2
+  http-cache-semantics: ^4.3.0
+  brace-expansion@^1: ^1.1.21
+  brace-expansion@^5: ^5.0.12
+  baseline-browser-mapping: ^2.11.0
+  browserslist: ^4.28.7
+  fast-xml-parser: ^5.10.1

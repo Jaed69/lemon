@@ -1,0 +1,30 @@
+# Build the lemon image, scan it, promote it to `latest`, and record the new tag in the
+# deployment repo (Jaed69/luciel-platform, env/tags.env). That commit triggers the deploy.
+#
+# Every build step lives in the reusable workflow, so this file stays a declaration of
+# WHAT this app is, never a copy of HOW images are built.
+#
+# Requires the PLATFORM_DEPLOY_TOKEN secret: a fine-grained PAT with `contents: write`
+# scoped to Jaed69/luciel-platform ONLY.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# One release at a time, in order: two quick pushes must not race to record the tag.
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  release:
+    uses: Jaed69/luciel-platform/.github/workflows/build-and-release.yml@main
+    permissions:
+      contents: read
+      packages: write
+    with:
+      image-name: lemon
+      tag-var: LEMON_TAG
+    secrets:
+      platform-token: ${{ secrets.PLATFORM_DEPLOY_TOKEN }}
