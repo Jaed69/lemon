@@ -19,12 +19,11 @@ concurrency:
 
 jobs:
   release:
-    uses: Jaed69/luciel-platform/.github/workflows/build-and-release.yml@main
+    # Temporary: pinned to the branch until the workflow is merged to main. Restore @main, tag-var
+    # and platform-token together, once this image exists and LEMON_TAG is declared.
+    uses: Jaed69/luciel-platform/.github/workflows/build-and-release.yml@chore/repo-split-groundwork
     permissions:
       contents: read
       packages: write
     with:
       image-name: lemon
-      tag-var: LEMON_TAG
-    secrets:
-      platform-token: ${{ secrets.PLATFORM_DEPLOY_TOKEN }}
