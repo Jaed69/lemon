@@ -18,6 +18,8 @@ COPY . .
 RUN pnpm build
 
 FROM nginx:1.31.8-alpine AS runtime
+# CVE-2026-111497: the base image ships brotli-libs 1.2.0-r1. Drop once the base tag includes 1.2.1.
+RUN apk upgrade --no-cache brotli-libs
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 8080
